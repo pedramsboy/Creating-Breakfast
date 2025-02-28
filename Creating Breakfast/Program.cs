@@ -25,6 +25,19 @@ namespace cockingAsyncBreakfast
                 Task<Bacon> baconsTask = FryBaconAsync(3);
                 Task<Toast> toastTask = ToastingBreadWithButterAndJamAsync(2);
 
+                var breakfastTasks = new List<Task> { eggsTask, baconsTask, toastTask };
+                while (breakfastTasks.Count > 0)
+                {
+                    Task finishedTask = await Task.WhenAny(breakfastTasks);
+                    if (finishedTask == eggsTask)
+                        Console.WriteLine("Eggs are ready !!!");
+                    else if (finishedTask == baconsTask)
+                        Console.WriteLine("Bacons are ready !!!");
+                    else if (finishedTask == toastTask)
+                        Console.WriteLine("Toasts are ready!!!");
+                    await finishedTask;
+                    breakfastTasks.Remove(finishedTask);
+                }
 
                 Juice glass = PourJuice();
                 Console.WriteLine("Juice is ready!!!");
