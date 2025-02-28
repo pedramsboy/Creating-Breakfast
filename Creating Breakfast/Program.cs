@@ -12,7 +12,7 @@ namespace cockingAsyncBreakfast
         internal class Toast { }
         internal class Juice { }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var watch = Stopwatch.StartNew();
 
@@ -21,19 +21,23 @@ namespace cockingAsyncBreakfast
                 Coffee cup = PourCoffee();
                 Console.WriteLine("Coffee is ready !!!");
 
-                Egg eggs = FryEgg(2);
-                Console.WriteLine("Eggs are ready !!!");
+                Task<Egg> eggsTask = FryEggAsync(2);
+                Task<Bacon> baconsTask = FryBaconAsync(3);
+                Task<Toast> toastTask = ToastingBreadAsync(2);
 
-                Bacon bcons = FryBacon(3);
-                Console.WriteLine("Bacons are ready !!!");
-
-                Toast toast = ToastingBread(2);
+                Toast toast = await toastTask;
                 ApplyButter(toast);
                 ApplyJam(toast);
                 Console.WriteLine("Toasts are ready!!!");
 
                 Juice glass = PourJuice();
                 Console.WriteLine("Juice is ready!!!");
+
+                Egg eggs = await eggsTask;
+                Console.WriteLine("Eggs are ready !!!");
+
+                Bacon bcons = await baconsTask;
+                Console.WriteLine("Bacons are ready !!!");
 
                 Console.WriteLine("Your breakfast is ready !!!");
             }
@@ -50,51 +54,51 @@ namespace cockingAsyncBreakfast
             return new Coffee();
         }
 
-        private static Egg FryEgg(int eggs)
+        private static async Task<Egg> FryEggAsync(int eggs)
         {
             Console.WriteLine("Warming The Pan");
-            Task.Delay(3000).Wait();
+            await Task.Delay(3000);
             Console.WriteLine($"Crack {eggs} eggs into the pan");
-            Task.Delay(1000).Wait();
+            await Task.Delay(1000);
             Console.WriteLine("cooking the eggs");
-            Task.Delay(3000).Wait();
+            await Task.Delay(3000);
             Console.WriteLine("Put fried eggs on the plate");
 
             return new Egg();
         }
 
-        private static Bacon FryBacon(int bacons)
+        private static async Task<Bacon> FryBaconAsync(int bacons)
         {
             Console.WriteLine("Warming the pan");
-            Task.Delay(3000).Wait();
+            await Task.Delay(3000);
             Console.WriteLine($"Putting {bacons} bacons into the pan");
-            Task.Delay(1000).Wait();
+            await Task.Delay(1000);
             Console.WriteLine("Cooking the first side of the bacons");
-            Task.Delay(3000).Wait();
+            await Task.Delay(3000);
 
             for (int baconSlice = 0; baconSlice < bacons; baconSlice++)
             {
                 Console.WriteLine("flipping a slice of bacon");
-                Task.Delay(1000).Wait();
+                await Task.Delay(1000);
             }
 
             Console.WriteLine("Cooking the second side of the bacons");
-            Task.Delay(3000).Wait();
+            await Task.Delay(3000);
             Console.WriteLine("Put fried bacons on the plate");
 
             return new Bacon();
         }
 
-        private static Toast ToastingBread(int slices)
+        private static async Task<Toast> ToastingBreadAsync(int slices)
         {
             for (int slice = 0; slice < slices; slice++)
             {
                 Console.WriteLine("putting slice of bread into the toaster");
-                Task.Delay(300).Wait();
+                await Task.Delay(300);
             }
 
             Console.WriteLine("Start Toasting");
-            Task.Delay(3000).Wait();
+            await Task.Delay(3000);
             Console.WriteLine("Put Toasted Slices on the Plate");
 
             return new Toast();
