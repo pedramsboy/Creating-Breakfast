@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace cockingAsyncBreakfast
@@ -13,24 +14,33 @@ namespace cockingAsyncBreakfast
 
         static void Main(string[] args)
         {
-            Coffee cup = PourCoffee();
-            Console.WriteLine("Coffee is ready !!!");
+            var watch = Stopwatch.StartNew();
 
-            Egg eggs = FryEgg(2);
-            Console.WriteLine("Eggs are ready !!!");
+            for (int i = 0; i < 1; i++)
+            {
+                Coffee cup = PourCoffee();
+                Console.WriteLine("Coffee is ready !!!");
 
-            Bacon bcons = FryBacon(3);
-            Console.WriteLine("Bacons are ready !!!");
+                Egg eggs = FryEgg(2);
+                Console.WriteLine("Eggs are ready !!!");
 
-            Toast toast = ToastingBread(2);
-            ApplyButter(toast);
-            ApplyJam(toast);
-            Console.WriteLine("Toasts are ready!!!");
+                Bacon bcons = FryBacon(3);
+                Console.WriteLine("Bacons are ready !!!");
 
-            Juice glass = PourJuice();
-            Console.WriteLine("Juice is ready!!!");
+                Toast toast = ToastingBread(2);
+                ApplyButter(toast);
+                ApplyJam(toast);
+                Console.WriteLine("Toasts are ready!!!");
 
-            Console.WriteLine("Your breakfast is ready !!!");
+                Juice glass = PourJuice();
+                Console.WriteLine("Juice is ready!!!");
+
+                Console.WriteLine("Your breakfast is ready !!!");
+            }
+
+            watch.Stop();
+
+            Console.WriteLine($"The Execution time of the program is {watch.ElapsedMilliseconds}ms");
         }
 
         private static Coffee PourCoffee()
