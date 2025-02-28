@@ -23,12 +23,8 @@ namespace cockingAsyncBreakfast
 
                 Task<Egg> eggsTask = FryEggAsync(2);
                 Task<Bacon> baconsTask = FryBaconAsync(3);
-                Task<Toast> toastTask = ToastingBreadAsync(2);
+                Task<Toast> toastTask = ToastingBreadWithButterAndJamAsync(2);
 
-                Toast toast = await toastTask;
-                ApplyButter(toast);
-                ApplyJam(toast);
-                Console.WriteLine("Toasts are ready!!!");
 
                 Juice glass = PourJuice();
                 Console.WriteLine("Juice is ready!!!");
@@ -38,6 +34,9 @@ namespace cockingAsyncBreakfast
 
                 Bacon bcons = await baconsTask;
                 Console.WriteLine("Bacons are ready !!!");
+
+                Toast toasts = await toastTask;
+                Console.WriteLine("Toasts are ready!!!");
 
                 Console.WriteLine("Your breakfast is ready !!!");
             }
@@ -102,6 +101,15 @@ namespace cockingAsyncBreakfast
             Console.WriteLine("Put Toasted Slices on the Plate");
 
             return new Toast();
+        }
+
+        private static async Task<Toast> ToastingBreadWithButterAndJamAsync(int slices)
+        {
+            Toast toast = await ToastingBreadAsync(slices);
+            ApplyButter(toast);
+            ApplyJam(toast);
+
+            return toast;
         }
 
         private static void ApplyButter(Toast tost) =>
